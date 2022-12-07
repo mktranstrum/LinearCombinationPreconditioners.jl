@@ -5,14 +5,14 @@ Returns:
 T: Preconditioner
 TA: Preconditioner times A
 """
-function precondition(A0::M, θs, Aks) where M<:AbstractMatrix
-    n = size(A0, 1)
-    TA = copy(A0)
-    Tmat = zero(A0)
-    for i = 1:size(A0, 1)
+function precondition(mlc::MatrixLinearCombination{M, K}, θs) where {M,K}
+    TA = copy(A0(mlc))
+    n = size(TA, 1)
+    Tmat = zero(TA)
+    for i = 1:n
         Tmat[i,i] = 1
     end
-    for (θ, Ak) = zip(θs, Aks)
+    for (θ, Ak) = zip(θs, Aks(mlc))
         TAk = Tmat * Ak
         C, Cperp = C_Cperp(TAk)
         Tnew = T(θ, C, Cperp)
