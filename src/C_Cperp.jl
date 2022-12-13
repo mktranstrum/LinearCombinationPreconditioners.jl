@@ -35,15 +35,15 @@ end
 
 C_Cperp(A::SparseRankOneMatrix) = C_Cperp(A.u)
 
-function C_Cperp(v::SparseVector)
+function C_Cperp(v::SparseVector{T}) where T
     N = length(v)
     nn = length(v.nzval)
     U = hcat(v.nzval, diagm(nn, nn-1, ones(nn-1))) |> gramschmidt
 
-    C = spzeros(N, 1)
+    C = spzeros(T, N, 1)
     C[v.nzind, 1] .= U[:,1]
 
-    Cperp = spzeros(N, N - 1)
+    Cperp = spzeros(T, N, N - 1)
     for icol = 1:nn - 1
         Cperp[v.nzind, icol] .= U[:,icol+1]
     end

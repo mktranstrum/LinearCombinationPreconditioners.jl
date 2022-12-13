@@ -60,7 +60,7 @@ C, Cperp = C_Cperp(m)
 @assert all(isapprox.(Cperp' * m, 0; atol = eps()))
 
 A0 = spdiagm(ones(ComplexF64, 5))
-A1 = SparseRankOneMatrix( SparseVector(ComplexF64[1, -1, 0, 0, 0]),
+A1 = SparseRankOneMatrix( SparseVector(ComplexF64[1 + im, -1 - im, 0, 0, 0]),
                           SparseVector(ComplexF64[1, 1, 0, 0, 0]))
 A2 = SparseRankOneMatrix( SparseVector(ComplexF64[0, 1, -1, 0, 0]),
                           SparseVector(ComplexF64[0, 1, 1, 0, 0]))
