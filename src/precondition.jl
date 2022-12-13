@@ -16,7 +16,8 @@ function precondition(mlc::MatrixLinearCombination{M, K}, θs) where {M,K}
         TAk = Tmat * Ak
         C, Cperp = C_Cperp(TAk)
         Tnew = T(θ, C, Cperp)
-        TA .= Tnew*TA + finite_xform(θ) * vcat( C'*TAk, Cperp'*TAk) # 2nd term should be zero
+        TA .= Tnew*TA 
+        TA[1:size(C, 2), :] .+= finite_xform(θ) * C' * TAk
         Tmat .= Tnew*Tmat
     end
     return TA, Tmat
